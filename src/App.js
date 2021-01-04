@@ -6,6 +6,7 @@ import reducers from './reducers';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
+import LoginFrom from './components/common/LoginFrom'
 
 class App extends Component {
     // state = {loggedIn:null}
@@ -38,6 +39,7 @@ class App extends Component {
                     <Text>
                         Hello 
                     </Text>
+                    <LoginFrom />
                 </View>
             </Provider>
         )
