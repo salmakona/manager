@@ -1,50 +1,41 @@
-import React, {Component} from 'react';
-import {View, Text} from 'react-native';
-import {Provider} from 'react-redux';
-import { createStore } from 'redux';
+import React, { Component } from 'react';
+import { SafeAreaView } from 'react-native';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import firebase from 'firebase';
+import ReduxThunk from 'redux-thunk'; // this is a middleware
 import reducers from './reducers';
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/database';
-import LoginFrom from './components/common/LoginFrom'
+import LoginForm from './components/LoginForm';
+import Router from './Router';
 
 class App extends Component {
-    // state = {loggedIn:null}
-    componentWillMount() {
+
+    componentDidMount(){
         var firebaseConfig = {
-            apiKey: "AIzaSyBLT4JL1QMDChUezvRBj7n_lhfE6EE9T1Q",
-            authDomain: "auth-d7ac6.firebaseapp.com",
-            projectId: "auth-d7ac6",
-            storageBucket: "auth-d7ac6.appspot.com",
-            messagingSenderId: "321300534674",
-            appId: "1:321300534674:web:69aad978b4bdcf864add4b",
-            measurementId: "G-S6D9QKQ9GV"
+            apiKey: "AIzaSyAbh_OtImji9-MiL-TtkzZuDrV6yVLtc38",
+            authDomain: "manager-8bcc1.firebaseapp.com",
+            projectId: "manager-8bcc1",
+            storageBucket: "manager-8bcc1.appspot.com",
+            messagingSenderId: "1016781450880",
+            appId: "1:1016781450880:web:645511aca911a837324065",
+            measurementId: "G-HH1NNTR0LN"        
         };
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+         }
         // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        // firebase.auth().onAuthStateChanged((user)=>{
-        //     if(user){
-        //         this.setState({loggedIn:true});
-        //     }else{
-        //         this.setState({loggedIn:false});
-        //     }
-
-        // });
-
+        // firebase.initializeApp(firebaseConfig);
+        // firebase.analytics();
     }
-    render(){
-        return(
-            <Provider store={createStore(reducers)}>
-                <View>
-                    <Text>
-                        Hello 
-                    </Text>
-                    <LoginFrom />
-                </View>
+
+    render() {
+        const store = createStore(reducers, {}, applyMiddleware(ReduxThunk))
+        return (
+            <Provider store={store}>
+                <Router />
             </Provider>
         )
     }
-
-}
+};
 
 export default App;
