@@ -21,17 +21,19 @@ export const employeeCreate = ({ name, phone, shift }) => {
     return (dispatch) => {
         firebase.database().ref(`/users/${currentUser.uid}/employees`)
             .push({ name, phone, shift })
-     
+            .then(()=> {
+                dispatch({ type: EMPLOYEE_CREATE });
+                Actions.pop({ type: 'reset' });
+            });
     }
 
 }
 
-// export const employeeCreate = ({ prop, value }) => {
-//   return {
-//     type: EMPLOYEE_CREATE,
-//     payload: { prop, value }
-//   };
-//   // console.log(name)
-//   // console.log(phone)
-//   // console.log(shift)
-// }
+export const employeeFetch = () =>{
+  return (dispatch) =>{
+    firebase.database().ref(`/users/${currentUser.uid}/employees`)
+      .on('value', snapshot=>{
+        dispatch({type:EMPLOYEE_FETCH_SUCCESS, payload:snapshot.val() });
+      })
+  };
+}
