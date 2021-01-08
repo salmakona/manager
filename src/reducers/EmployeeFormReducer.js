@@ -3,7 +3,7 @@ import {EMPLOYEE_UPDATE} from '../actions/types';
 
 const INITIAL_STATE = {
     name:'',
-    Phone:'',
+    phone:'',
     shift:''
 };
 

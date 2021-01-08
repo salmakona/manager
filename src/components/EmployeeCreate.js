@@ -1,11 +1,18 @@
 import React, {Component} from 'react';
 import { Picker, Text } from 'react-native';
 import {connect} from 'react-redux';
-import { employeeUpdate } from '../actions';
+import { employeeUpdate, employeeCreate } from '../actions';
 import {Card, CardSection, Input, Button} from './common';
 
 
 class EmployeeCreate extends Component {
+
+    onButtonPress(){
+
+        const { name, phone, shift } = this.props;
+        this.props.employeeCreate({ name, phone, shift: shift || 'Monday' });
+    }
+
     render(){
         return (
             <Card>
@@ -19,7 +26,7 @@ class EmployeeCreate extends Component {
                 </CardSection>
                 <CardSection>
                     <Input label="Phone" placeholder="444-555-5555" value ={this.props.phone}
-                        onChangeText={Value=>this.props.employeeUpdate({prop:'phone', Value})}
+                        onChangeText= {value=>this.props.employeeUpdate({prop:'phone',  value })}
                     />
                 </CardSection>
                 <CardSection style ={{flexdirection:'colum'}}>
@@ -39,7 +46,7 @@ class EmployeeCreate extends Component {
                     </Picker>
                 </CardSection>
                 <CardSection>
-                    <Button>
+                    <Button onPress={this.onButtonPress.bind(this)}>
                         Create
                     </Button>
                 </CardSection>
@@ -59,9 +66,11 @@ const styles = {
 
 const mapStateToProps = (state) => {
 
-    const {name,phone, shift} = state.employeeFrom;
+    const {name, phone, shift} = state.employeeFrom;
     return {name, phone, shift}
 
 }
 
-export default connect(mapStateToProps, {employeeUpdate})(EmployeeCreate);
+export default connect(mapStateToProps, 
+    {employeeUpdate, employeeCreate
+})(EmployeeCreate);
