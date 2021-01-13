@@ -1,3 +1,3 @@
 # manager
-manager can delete employee 
+Manager can delete employee 
 react-native with firebase
